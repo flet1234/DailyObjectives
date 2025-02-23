@@ -5,7 +5,7 @@ export default function HomePage() {
   const navigation = useNavigation();
   return (
     <View>
-      <Button onPress={() => navigation.navigate('Day')} title="New day" />
+      <Button onPress={() => navigation.navigate('Day', {id:null})} title="New Day" />
       <Button
         onPress={() => navigation.navigate('AllDaysList')}
         title="All days list"

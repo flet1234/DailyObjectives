@@ -12,7 +12,7 @@ declare global {
 }
 type RootStackParamList = {
   Home: undefined;
-  Day: undefined;
+  Day: {id:string|null};
   AllDaysList: undefined;
   Settings: undefined;
 };
