@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
-import daysDataReducer from './features/dasyData/daysDataSlice';
+import daysDataReducer from './features/daysData/daysDataSlice';
 
 export const store = configureStore({
   reducer: {

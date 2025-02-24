@@ -1,51 +1,75 @@
-import {useEffect, useState} from 'react';
-import {Modal, TextInput, View} from 'react-native';
+import {useState} from 'react';
+import {Button, Text, TextInput, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {stringToObjectives} from '../utils/objectiveTransmorf';
+import {useAppDispatch} from '../redux/features/daysData/hooks';
+import {
+  addNewDay,
+  addObjectives,
+} from '../redux/features/daysData/daysDataSlice';
+import uuid from 'react-native-uuid';
+import {stringToObjectives} from '../utils/objectiveTransform';
+import {useNavigation} from '@react-navigation/native';
 
 export default function ObjectivesInput({
-  objectivesString,
-  modalVisible,
-  setModalVisible,
-  setObjectives,
+  route,
 }: {
-  objectivesString: string;
-  modalVisible: boolean;
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setObjectives: React.Dispatch<React.SetStateAction<string[]>>;
+  route: {
+    params: {
+      id: string | null;
+      date: string;
+    };
+  };
 }) {
-  const [userInput, setUserInput] = useState(objectivesString);
+  const [userInput, setUserInput] = useState('');
+  const {id, date} = route.params;
+  const navigation = useNavigation();
 
-    console.log('setModalVisible', modalVisible);
-    
-    
-  useEffect(() => {
-    setObjectives(stringToObjectives(userInput));
-      }, [userInput]);
-    
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = () => {
+    if (id === null) {
+      const newId = uuid.v4();
+      dispatch(
+        addNewDay({
+          id: newId,
+          date: date,
+          objectives: stringToObjectives(userInput),
+        }),
+      );
+      navigation.navigate('Day', {id: newId, date: date});
+    } else if (id) {
+      dispatch(
+        addObjectives({
+          id: id,
+          date: date,
+          objectives: stringToObjectives(userInput),
+        }),
+      );
+      navigation.navigate('Day', {id: id, date: date});
+    }
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'red',
-          }}>
-          <Text>Hello Modal</Text>
-          {/* <TextInput
-            style={{fontSize: 20}}
-            value={userInput}
-            placeholder="Copy or input your objectives one by one divided by space"
-            onChangeText={setUserInput}
-          /> */}
-        </View>
-      </Modal>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'grey',
+        }}>
+        <Text>
+          Hello {id} {date}
+        </Text>
+        <TextInput
+          style={{fontSize: 16}}
+          multiline
+          value={userInput}
+          placeholder="Copy or input your objectives each should start with new line, and then press Submit Button"
+          onChangeText={setUserInput}
+        />
+        <Button onPress={handleSubmit} title="Submit" />
+      </View>
     </SafeAreaView>
   );
 }

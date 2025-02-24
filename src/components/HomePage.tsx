@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import {Button, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
