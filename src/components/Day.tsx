@@ -14,7 +14,7 @@ import HeaderLeftButton from './ui/HeaderLeftButton';
 export default function Day({
   route,
 }: {
-  route: {params: {id: string | null; date: string}};
+  route: {params: {id: string; date: string}};
 }) {
   const [dayObjectives, setDayObjectives] = useState<Objective[]>([]);
   const {id, date} = route.params;
@@ -23,52 +23,38 @@ export default function Day({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (id) {
-      const thisDay = data.filter(day => day.id === id);
-      setDayObjectives(thisDay[0].objectives);
-    }
+    const thisDay = data.filter(day => day.id === id);
+    setDayObjectives(thisDay[0].objectives);
   }, [id, data]);
 
   useEffect(() => {
-    if (id === null) {
-      navigation.navigate('ObjectivesInput', {id: id, date: date});
-    }
-  }, [id, date, navigation]);
+    const headerRight = () => <HeaderRightButton id={id} date={date} />;
+    const headerLeft = () => <HeaderLeftButton />;
 
-  useEffect(() => {
-    if (id) {
-      const headerRight = () => <HeaderRightButton id={id} date={date} />;
-      const headerLeft = () => <HeaderLeftButton/>;
-
-      navigation.setOptions({
-        headerRight,
-        headerLeft,
-      });
-    }
+    navigation.setOptions({
+      headerRight,
+      headerLeft,
+    });
   }, [navigation, dayObjectives, id, date]);
 
   const handleDelete = (item: Objective) => {
-    if (id) {
-      dispatch(deleteObjective({id: id, objectiveId: item.id}));
-      setDayObjectives(prev =>
-        prev?.filter(objective => objective.id !== item.id),
-      );
-    }
+    dispatch(deleteObjective({id: id, objectiveId: item.id}));
+    setDayObjectives(prev =>
+      prev?.filter(objective => objective.id !== item.id),
+    );
   };
 
   return (
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
-      {id && (
-        <FlatList
-          data={dayObjectives}
-          renderItem={({item}) => (
-            <Item item={item} id={id} handleDelete={() => handleDelete(item)} />
-          )}
-          keyExtractor={item => item.id}
-          ListEmptyComponent={<Text>There is no objectives</Text>}
-        />
-      )}
+      <FlatList
+        data={dayObjectives}
+        renderItem={({item}) => (
+          <Item item={item} id={id} handleDelete={() => handleDelete(item)} />
+        )}
+        keyExtractor={item => item.id}
+        ListEmptyComponent={<Text>There is no objectives</Text>}
+      />
     </SafeAreaView>
   );
 }

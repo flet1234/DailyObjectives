@@ -16,7 +16,7 @@ declare global {
 }
 type RootStackParamList = {
   Home: undefined;
-  Day: {id: string | null; date: string};
+  Day: {id: string; date: string};
   AllDaysList: undefined;
   Settings: undefined;
   ObjectivesInput: {id: string | null; date: string};

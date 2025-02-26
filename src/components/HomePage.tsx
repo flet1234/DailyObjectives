@@ -10,7 +10,7 @@ export default function HomePage() {
       <View>
         <Button
           onPress={() =>
-            navigation.navigate('Day', {
+            navigation.navigate('ObjectivesInput', {
               id: null,
               date: new Date().toLocaleDateString(),
             })
