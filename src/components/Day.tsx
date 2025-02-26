@@ -8,7 +8,8 @@ import {
   deleteObjective,
   editOneObjective,
 } from '../redux/features/daysData/daysDataSlice';
-import HeaderTightButton from './ui/HeaderTightButton';
+import HeaderRightButton from './ui/HeaderRightButton';
+import HeaderLeftButton from './ui/HeaderLeftButton';
 
 export default function Day({
   route,
@@ -36,10 +37,12 @@ export default function Day({
 
   useEffect(() => {
     if (id) {
-      const headerRight = () => <HeaderTightButton id={id} date={date} />;
+      const headerRight = () => <HeaderRightButton id={id} date={date} />;
+      const headerLeft = () => <HeaderLeftButton/>;
 
       navigation.setOptions({
         headerRight,
+        headerLeft,
       });
     }
   }, [navigation, dayObjectives, id, date]);
@@ -56,7 +59,6 @@ export default function Day({
   return (
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
-      <Text style={{textAlign: 'center'}}>Day</Text>
       {id && (
         <FlatList
           data={dayObjectives}

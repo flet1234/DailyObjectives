@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {Button} from 'react-native';
 
-export const HeaderTightButton = ({id, date}: {id: string; date: string}) => {
+export const HeaderRightButton = ({id, date}: {id: string; date: string}) => {
   const navigation = useNavigation();
   return (
     <Button
@@ -16,4 +16,4 @@ export const HeaderTightButton = ({id, date}: {id: string; date: string}) => {
   );
 };
 
-export default HeaderTightButton;
+export default HeaderRightButton;
