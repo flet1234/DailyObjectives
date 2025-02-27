@@ -1,5 +1,12 @@
 import {useState} from 'react';
-import {Button, Text, TextInput, View} from 'react-native';
+import {
+  Button,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAppDispatch} from '../redux/features/daysData/hooks';
 import {
@@ -50,26 +57,60 @@ export default function ObjectivesInput({
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'grey',
-        }}>
-        <Text>
-          Hello {id} {date}
-        </Text>
-        <TextInput
-          style={{fontSize: 16}}
-          multiline
-          value={userInput}
-          placeholder="Copy or input your objectives each should start with new line, and then press Submit Button"
-          onChangeText={setUserInput}
-        />
-        <Button onPress={handleSubmit} title="Submit" />
-      </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.noteView}>
+          <Text style={styles.noteText}>Copy or input your objectives</Text>
+          <Text style={styles.noteText}>Each should start with a new line</Text>
+        </View>
+        <View style={styles.textInputView}>
+          <TextInput
+            style={styles.textInput}
+            multiline
+            value={userInput}
+            onChangeText={setUserInput}
+          />
+        </View>
+        <Button onPress={handleSubmit} title="Create" />
+      </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+  },
+  scrollView: {
+    width: '100%',
+  },
+  noteView: {
+    backgroundColor: '#2196F3',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    width: '100%',
+  },
+  noteText: {
+    color: '#F5F5F5',
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 500,
+  },
+  textInputView: {
+    width: '100%',
+    minHeight: 100,
+    backgroundColor: '#E3F2FD',
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
+  },
+  textInput: {
+    color: '#333333',
+    fontSize: 16,
+    fontWeight: 500,
+    width: '80%',
+    margin: 'auto',
+  },
+});
