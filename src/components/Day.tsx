@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAppDispatch, useAppSelector} from '../redux/features/daysData/hooks';
 import {useNavigation} from '@react-navigation/native';
-import {Objective} from '../interfaces-and-types/interfacesAndTypes';
+import {DayObject, Objective} from '../interfaces-and-types/interfacesAndTypes';
 import {
   deleteObjective,
   editOneObjective,
@@ -23,7 +23,7 @@ export default function Day({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const thisDay = data.find(day => day.id === id);
+    const thisDay = data.find((day: DayObject)=> day.id === id);
 
     if (thisDay) {
       setDayObjectives(thisDay.objectives);
