@@ -23,8 +23,11 @@ export default function Day({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const thisDay = data.filter(day => day.id === id);
-    setDayObjectives(thisDay[0].objectives);
+    const thisDay = data.find(day => day.id === id);
+
+    if (thisDay) {
+      setDayObjectives(thisDay.objectives);
+    }
   }, [id, data]);
 
   useEffect(() => {

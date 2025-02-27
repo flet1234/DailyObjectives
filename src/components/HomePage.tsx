@@ -15,7 +15,7 @@ export default function HomePage() {
               date: new Date().toLocaleDateString(),
             })
           }
-          title="New Day"
+          title="New objectives for today"
         />
         <Button
           onPress={() => navigation.navigate('AllDaysList')}

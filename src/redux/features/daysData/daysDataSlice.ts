@@ -16,10 +16,24 @@ export const daysDataSlice = createSlice({
   initialState,
   reducers: {
     addNewDay: (state, action: PayloadAction<DayObject>) => {
-      state.data.push({
-        id: action.payload.id,
-        date: action.payload.date,
-        objectives: action.payload.objectives,
+      const thisDay = state.data.find(day => day.date === action.payload.date);
+      if (thisDay) {
+        thisDay.objectives = [
+          ...thisDay.objectives,
+          ...action.payload.objectives,
+        ];
+        thisDay.id = action.payload.id;
+      } else {
+        state.data.push({
+          id: action.payload.id,
+          date: action.payload.date,
+          objectives: [...action.payload.objectives],
+        });
+      }
+    },
+    deleteDay: (state, action: PayloadAction<{id: string}>) => {
+      state.data = state.data.filter(day => {
+        return day.id !== action.payload.id;
       });
     },
     addObjectives: (state, action: PayloadAction<DayObject>) => {
@@ -69,8 +83,13 @@ export const daysDataSlice = createSlice({
   },
 });
 
-export const {addNewDay, addObjectives, editOneObjective, deleteObjective} =
-  daysDataSlice.actions;
+export const {
+  addNewDay,
+  addObjectives,
+  editOneObjective,
+  deleteObjective,
+  deleteDay,
+} = daysDataSlice.actions;
 
 export const selectData = (state: RootState) => state.daysDataReducer.data;
 
