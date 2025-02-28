@@ -57,6 +57,7 @@ const Item = ({
 
   return (
     <Pressable
+      hitSlop={20}
       style={styles.itemContainer}
       onPress={() => {
         navigation.navigate('Day', {id: id, date: date});

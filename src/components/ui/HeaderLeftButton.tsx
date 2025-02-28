@@ -5,6 +5,7 @@ export const HeaderLeftButton = () => {
   const navigation = useNavigation();
   return (
     <Pressable
+      hitSlop={30}
       style={styles.button}
       onPress={() =>
         navigation.reset({
@@ -20,10 +21,8 @@ export const HeaderLeftButton = () => {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: '#2196F3',
-    height: 'auto',
-    width: 70,
     padding: 4,
-    paddingHorizontal:10,
+    paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,

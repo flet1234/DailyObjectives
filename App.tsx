@@ -54,9 +54,7 @@ function App(): React.JSX.Element {
               <Stack.Screen
                 name="Day"
                 component={Day}
-                options={({route}) => ({
-                  title: route.params.date,
-                })}
+                options={{headerShown:false}}
               />
               <Stack.Screen
                 name="AllDaysList"

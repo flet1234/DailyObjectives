@@ -6,6 +6,7 @@ export const HeaderRightButton = ({id, date}: {id: string; date: string}) => {
   return (
     <Pressable
       style={styles.button}
+      hitSlop={30}
       onPress={() =>
         navigation.navigate('ObjectivesInput', {
           id: id,
@@ -20,11 +21,8 @@ export const HeaderRightButton = ({id, date}: {id: string; date: string}) => {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: '#2196F3',
-    height: 'auto',
-    width: 40,
-    marginLeft: 40,
     padding: 4,
-    paddingHorizontal: 10,
+    paddingHorizontal: 25,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,

@@ -60,6 +60,14 @@ export default function Day({
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <HeaderLeftButton />
+        <Text style={styles.headerText}>{date}</Text>
+        <HeaderRightButton id={id} date={date} />
+      </View>
+      <Text style={styles.hintText}>
+        Press to toggle completion, Hold to edit objective
+      </Text>
       <FlatList
         removeClippedSubviews={false}
         style={styles.listContainer}
@@ -122,6 +130,7 @@ const Item = ({
         backgroundColor: objective.completed ? '#4CAF50' : '#2196F3',
       }}>
       <Pressable
+        hitSlop={20}
         style={styles.itemTextContainer}
         onPress={handleShortObjectivePress}
         onLongPress={handleLongObjectivePress}>
@@ -154,10 +163,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
-    padding: 10,
+  },
+  headerContainer: {
+    height: '7.3%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#2196F3',
+    paddingHorizontal: 20,
+    paddingBlock: 12,
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: 700,
+    color: '#f5f5f5',
+  },
+  hintText: {
+    color: '#2196F3',
+    textAlign: 'center',
+    marginTop: 4,
+    fontSize: 16,
+    fontWeight: 500,
+    borderBottomWidth: 2,
+    borderBottomColor: '#2196F3',
   },
   listContainer: {
     flex: 1,
+    paddingHorizontal: 10,
+    marginBottom:10,
   },
   itemContainer: {
     flex: 1,
