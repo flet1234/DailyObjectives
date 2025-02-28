@@ -1,4 +1,4 @@
-import {Button, FlatList, Pressable, Text, View} from 'react-native';
+import {FlatList, Pressable, StyleSheet, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAppDispatch, useAppSelector} from '../redux/features/daysData/hooks';
 import {useEffect, useState} from 'react';
@@ -16,26 +16,25 @@ export default function AllDayList() {
   }, [data]);
 
   return (
-    <SafeAreaView>
-      <View>
-        <Text>All days</Text>
-        <FlatList
-          data={allDays}
-          renderItem={({item}) => (
-            <Item
-              date={item.date}
-              id={item.id}
-              notCompletedObjectives={
-                item.objectives.filter(
-                  objective => objective.completed === false,
-                ).length
-              }
-            />
-          )}
-          keyExtractor={item => item.id}
-          ListEmptyComponent={<Text>There is no saved days</Text>}
-        />
-      </View>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        style={styles.listContainer}
+        data={allDays}
+        renderItem={({item}) => (
+          <Item
+            date={item.date}
+            id={item.id}
+            notCompletedObjectives={
+              item.objectives.filter(objective => objective.completed === false)
+                .length
+            }
+          />
+        )}
+        keyExtractor={item => item.id}
+        ListEmptyComponent={
+          <Text style={styles.emptyHeader}>Empty</Text>
+        }
+      />
     </SafeAreaView>
   );
 }
@@ -58,18 +57,76 @@ const Item = ({
 
   return (
     <Pressable
+      style={styles.itemContainer}
       onPress={() => {
         navigation.navigate('Day', {id: id, date: date});
       }}>
-      <View>
-        <Text>{date}</Text>
-        <Text>
-          {notCompletedObjectives
-            ? `${notCompletedObjectives} to solve`
-            : 'All done'}{' '}
-        </Text>
-        <Button onPress={handleDelete} title="X"/>
-      </View>
+      <Text style={styles.itemHeader}>{date}</Text>
+      <Text style={styles.itemText}>
+        {notCompletedObjectives
+          ? `${notCompletedObjectives} to solve`
+          : 'All done'}{' '}
+      </Text>
+      <Pressable style={styles.button} onPress={handleDelete}>
+        <Text style={styles.buttonText}>x</Text>
+      </Pressable>
     </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+    padding: 10,
+  },
+  listContainer: {
+    flex: 1,
+  },
+  itemContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: 4,
+    borderRadius: 15,
+    borderColor: '#0D47A1',
+    paddingHorizontal: 10,
+    marginTop: 10,
+    backgroundColor: '#2196F3',
+  },
+  itemHeader: {
+    color: '#F5F5F5',
+    fontSize: 16,
+    fontWeight: 500,
+  },
+  itemText: {
+    color: '#F5F5F5',
+    fontSize: 16,
+    fontWeight: 500,
+  },
+  button: {
+    width: '10%',
+    height: 33,
+    backgroundColor: '#f5f5f5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 8,
+    borderWidth: 4,
+    borderRadius: 15,
+    borderColor: '#E57373',
+  },
+  buttonText: {
+    flex: 6,
+    color: '#E57373',
+    fontSize: 16,
+    fontWeight: 500,
+  },
+  emptyHeader: {
+    color: '#2196F3',
+    fontSize: 20,
+    fontWeight: 800,
+    textAlign: 'center',
+    marginTop: 50,
+  },
+});

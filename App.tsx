@@ -29,19 +29,40 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function App(): React.JSX.Element {
   return (
     <Provider store={store}>
-      <PersistGate loading={<Loading/>} persistor={persistor}>
+      <PersistGate loading={<Loading />} persistor={persistor}>
         <SafeAreaProvider>
           <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen name="Home" component={HomePage} />
+            <Stack.Navigator
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: '#2196F3',
+                },
+                headerTintColor: '#f5f5f5',
+                headerTitleStyle: {
+                  fontWeight: 700,
+                  fontSize: 18,
+                },
+                headerTitleAlign: 'center',
+              }}>
+              <Stack.Screen
+                name="Home"
+                component={HomePage}
+                options={{
+                  title: 'Daily Objectives',
+                }}
+              />
               <Stack.Screen
                 name="Day"
                 component={Day}
                 options={({route}) => ({
-                  title: 'Day' + ' ' + route.params.date,
+                  title: route.params.date,
                 })}
               />
-              <Stack.Screen name="AllDaysList" component={AllDayList} />
+              <Stack.Screen
+                name="AllDaysList"
+                component={AllDayList}
+                options={{title: 'All saved days'}}
+              />
               <Stack.Screen name="Settings" component={Settings} />
               <Stack.Screen
                 name="ObjectivesInput"

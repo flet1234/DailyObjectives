@@ -1,4 +1,15 @@
-import {Button, FlatList, Pressable, Text, TextInput, View} from 'react-native';
+import {
+  FlatList,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useAppDispatch, useAppSelector} from '../redux/features/daysData/hooks';
@@ -23,7 +34,7 @@ export default function Day({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const thisDay = data.find((day: DayObject)=> day.id === id);
+    const thisDay = data.find((day: DayObject) => day.id === id);
 
     if (thisDay) {
       setDayObjectives(thisDay.objectives);
@@ -48,9 +59,10 @@ export default function Day({
   };
 
   return (
-    <SafeAreaView
-      style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
+    <SafeAreaView style={styles.container}>
       <FlatList
+        removeClippedSubviews={false}
+        style={styles.listContainer}
         data={dayObjectives}
         renderItem={({item}) => (
           <Item item={item} id={id} handleDelete={() => handleDelete(item)} />
@@ -104,26 +116,88 @@ const Item = ({
 
   return (
     <View
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{
-        margin: 2,
-        backgroundColor: objective.completed ? 'green' : 'red',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        ...styles.itemContainer,
+        backgroundColor: objective.completed ? '#4CAF50' : '#2196F3',
       }}>
       <Pressable
+        style={styles.itemTextContainer}
         onPress={handleShortObjectivePress}
         onLongPress={handleLongObjectivePress}>
         {editMode ? (
-          <TextInput
-            value={objectiveTitle}
-            onEndEditing={handleTitleEdit}
-            onChangeText={text => setObjectiveTitle(text)}
-          />
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <TextInput
+                style={styles.itemInput}
+                value={objectiveTitle}
+                onEndEditing={handleTitleEdit}
+                autoFocus
+                onChangeText={text => setObjectiveTitle(text)}
+                selectionColor={'#f5f5f5'}
+              />
+            </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
         ) : (
-          <Text>{objectiveTitle}</Text>
+          <Text style={styles.itemText}>{objectiveTitle}</Text>
         )}
       </Pressable>
-      <Button onPress={handleDelete} title={'X'} />
+      <Pressable style={styles.button} onPress={handleDelete}>
+        <Text style={styles.buttonText}>x</Text>
+      </Pressable>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+    padding: 10,
+  },
+  listContainer: {
+    flex: 1,
+  },
+  itemContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: 4,
+    borderRadius: 15,
+    borderColor: '#0D47A1',
+    paddingHorizontal: 10,
+    marginTop: 10,
+  },
+  itemTextContainer: {
+    width: '90%',
+  },
+  itemInput: {
+    color: '#F5F5F5',
+    fontSize: 16,
+    fontWeight: 500,
+  },
+  itemText: {
+    color: '#F5F5F5',
+    fontSize: 16,
+    fontWeight: 500,
+  },
+  button: {
+    width: '10%',
+    height: 33,
+    backgroundColor: '#f5f5f5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 8,
+    borderWidth: 4,
+    borderRadius: 15,
+    borderColor: '#E57373',
+  },
+  buttonText: {
+    flex: 6,
+    color: '#E57373',
+    fontSize: 16,
+    fontWeight: 500,
+  },
+});

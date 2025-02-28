@@ -88,14 +88,16 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   noteView: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#E3F2FD',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
     width: '100%',
+    borderBottomWidth: 2,
+    borderBottomColor: '#2196F3',
   },
   noteText: {
-    color: '#F5F5F5',
+    color: '#2196F3',
     fontSize: 16,
     textAlign: 'center',
     fontWeight: 500,

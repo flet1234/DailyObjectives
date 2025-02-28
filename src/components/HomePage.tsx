@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Pressable} from 'react-native';
+import { StyleSheet, Text, Pressable, StatusBar} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -6,6 +6,7 @@ export default function HomePage() {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor="#2196F3" />
       <Pressable
         style={styles.button}
         onPress={() =>
